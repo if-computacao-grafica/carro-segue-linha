@@ -537,14 +537,13 @@ function sync(entity, renderComponent) {
     renderComponent.matrix.copy(entity.worldMatrix);
 }
 const path = new _yuka.Path();
-path.add(new _yuka.Vector3(-6, 0, 4));
-path.add(new _yuka.Vector3(-12, 0, 0));
+path.add(new _yuka.Vector3(-8, 5, 4));
 path.add(new _yuka.Vector3(-6, 0, -12));
 path.add(new _yuka.Vector3(0, 0, 0));
-path.add(new _yuka.Vector3(8, 0, -8));
 path.add(new _yuka.Vector3(10, 0, 0));
 path.add(new _yuka.Vector3(4, 0, 4));
-path.add(new _yuka.Vector3(0, 0, 6));
+path.add(new _yuka.Vector3(7, 0, 7));
+path.add(new _yuka.Vector3(2, 2, 9));
 path.loop = true;
 vehicle.position.copy(path.current());
 vehicle.maxSpeed = 3;
@@ -45861,6 +45860,6 @@ function buildNodeHierarchy(nodeId, parentObject, json, parser) {
     return newGeometry;
 }
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["9mE3T","goJYj"], "goJYj", "parcelRequiref3c6")
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["9mE3T","goJYj"], "goJYj", "parcelRequire5420")
 
 //# sourceMappingURL=index.64a4978e.js.map
