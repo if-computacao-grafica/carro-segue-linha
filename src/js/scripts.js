@@ -8,7 +8,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
-const scene = new THREE.Scene();
+const cena = new THREE.Scene();
 
 renderer.setClearColor(0xA3A3A3);
 
@@ -20,16 +20,16 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 camera.position.set(0, 10, 15);
-camera.lookAt(scene.position);
+camera.lookAt(cena.position);
 
-const ambientLight = new THREE.AmbientLight(0x333333);
-scene.add(ambientLight);
+const iluminacao = new THREE.AmbientLight(0x333333);
+cena.add(iluminacao);
 
 const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1);
 directionalLight.position.set(0, 10, 10);
-scene.add(directionalLight);
+cena.add(directionalLight);
 
-const vehicle = new YUKA.Vehicle();
+const veiculo = new YUKA.Vehicle();
 
 function sync(entity, renderComponent) {
     renderComponent.matrix.copy(entity.worldMatrix);
@@ -46,28 +46,28 @@ path.add( new YUKA.Vector3(2, 2, 9));
 
 path.loop = true;
 
-vehicle.position.copy(path.current());
+veiculo.position.copy(path.current());
 
-vehicle.maxSpeed = 3;
+veiculo.maxSpeed = 3;
 
 const followPathBehavior = new YUKA.FollowPathBehavior(path, 3);
-vehicle.steering.add(followPathBehavior);
+veiculo.steering.add(followPathBehavior);
 
 const onPathBehavior = new YUKA.OnPathBehavior(path);
 //onPathBehavior.radius = 2;
-vehicle.steering.add(onPathBehavior);
+veiculo.steering.add(onPathBehavior);
 
 const entityManager = new YUKA.EntityManager();
-entityManager.add(vehicle);
+entityManager.add(veiculo);
 
 const loader = new GLTFLoader();
 loader.load('./assets/SUV.glb', function(glb) {
     const model = glb.scene;
     //model.scale.set(0.5, 0.5, 0.5);
-    scene.add(model);
+    cena.add(model);
     model.matrixAutoUpdate = false;
-    vehicle.scale = new YUKA.Vector3(0.5, 0.5, 0.5);
-    vehicle.setRenderComponent(model, sync);
+    veiculo.scale = new YUKA.Vector3(0.5, 0.5, 0.5);
+    veiculo.setRenderComponent(model, sync);
 });
 
 // const vehicleGeometry = new THREE.ConeBufferGeometry(0.1, 0.5, 8);
@@ -77,28 +77,28 @@ loader.load('./assets/SUV.glb', function(glb) {
 // vehicleMesh.matrixAutoUpdate = false;
 // scene.add(vehicleMesh);
 
-const position = [];
+const posicao = [];
 for(let i = 0; i < path._waypoints.length; i++) {
     const waypoint = path._waypoints[i];
-    position.push(waypoint.x, waypoint.y, waypoint.z);
+    posicao.push(waypoint.x, waypoint.y, waypoint.z);
 }
 
 const lineGeometry = new THREE.BufferGeometry();
-lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(position, 3));
+lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(posicao, 3));
 
 const lineMaterial = new THREE.LineBasicMaterial({color: 0xFFFFFF});
 const lines = new THREE.LineLoop(lineGeometry, lineMaterial);
-scene.add(lines);
+cena.add(lines);
 
-const time = new YUKA.Time();
+const tempo = new YUKA.Time();
 
-function animate() {
-    const delta = time.update().getDelta();
+function animar() {
+    const delta = tempo.update().getDelta();
     entityManager.update(delta);
-    renderer.render(scene, camera);
+    renderer.render(cena, camera);
 }
 
-renderer.setAnimationLoop(animate);
+renderer.setAnimationLoop(animar);
 
 window.addEventListener('resize', function() {
     camera.aspect = window.innerWidth / window.innerHeight;
